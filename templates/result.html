@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card report-hero">
+  <div class="eyebrow">Your preview result</div>
+  <h1>{{ result.headline }}</h1>
+  <p class="lead">{{ result.overview }}</p>
+  <div class="badge-row">
+    {% for item in result.dimension_story %}
+      <div class="badge">{{ item.label }} · {{ item.percent }}%</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card" style="margin-top:14px;">
+  <h3>Your profile at a glance</h3>
+  <p class="small">{{ result.identity_sentence }}</p>
+
+  <div class="vector-grid">
+    {% for dim, score in normalized.items() %}
+      <div class="vector-row">
+        <span>{{ dim }}</span>
+        <div class="meter"><div class="fill" style="width: {{ score * 100 }}%"></div></div>
+        <strong>{{ (score * 100)|round(0) }}%</strong>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="insight-box">
+    <h3>First insight</h3>
+    <p>{{ result.deep_insights[0] }}</p>
+  </div>
+
+  <div class="btn-row" style="margin-top:14px;">
+    <a class="btn primary" href="{{ url_for('profile_name') }}">Continue to save my profile</a>
+  </div>
+</section>
+{% endblock %}

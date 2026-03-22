@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card hero">
+  <div class="eyebrow">Behavioral Spending Atlas™</div>
+  <h1>A deeper look at how you actually make money decisions</h1>
+  <p class="lead">This pilot version was designed for a sample group. It takes about 6 minutes, runs beautifully on mobile, and gives you a full result with no payment required.</p>
+
+  <div class="highlight-grid">
+    <div class="highlight"><strong>36</strong><span>decision prompts</span></div>
+    <div class="highlight"><strong>9</strong><span>behavior dimensions</span></div>
+    <div class="highlight"><strong>1</strong><span>personalized atlas</span></div>
+  </div>
+
+  <form action="{{ url_for('start') }}" method="post">
+    <button class="btn primary" type="submit">Begin the assessment</button>
+  </form>
+
+  <p class="small">You will see your result preview first. After that, you can add your name, social profile, demographics, and email so we can save and send your full report.</p>
+</section>
+{% endblock %}

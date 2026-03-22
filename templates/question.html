@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card question-card">
+  <div class="step-row">
+    <span>Question {{ index }} of {{ total }}</span>
+    <span>{{ q.section }}</span>
+  </div>
+  <div class="progress"><div class="bar" style="width: {{ (index / total * 100)|round(0) }}%"></div></div>
+  <div class="eyebrow">Choose the closest fit</div>
+  <h2>{{ q.question }}</h2>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="post" class="answers">
+    {% for key, text in q.options.items() %}
+      <label class="option">
+        <input type="radio" name="answer" value="{{ key }}" {% if selected == key %}checked{% endif %}>
+        <span>{{ text }}</span>
+      </label>
+    {% endfor %}
+    <button class="btn primary" type="submit">Continue</button>
+  </form>
+</section>
+{% endblock %}

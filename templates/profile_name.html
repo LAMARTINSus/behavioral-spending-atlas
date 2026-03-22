@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <div class="eyebrow">Personalize your result</div>
+  <h2>What’s your first name?</h2>
+  <p class="small">We’ll use it to make your report feel more personal.</p>
+  <form method="post" class="stack-form">
+    <input type="text" name="first_name" placeholder="First name" value="{{ first_name }}">
+    <button class="btn primary" type="submit">Continue</button>
+  </form>
+</section>
+{% endblock %}

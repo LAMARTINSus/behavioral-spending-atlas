@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <div class="eyebrow">Optional profile details</div>
+  <h2>Help us refine your atlas</h2>
+  <p class="small">These fields are optional and do not affect your score. They only enrich the profile data we save for the pilot.</p>
+  <form method="post" class="stack-form">
+    <div>
+      <div class="label">Gender</div>
+      <div class="radio-list horizontal" style="margin-top:10px;">
+        {% for g in ['Female','Male','Prefer not to say'] %}
+        <label class="option slim"><input type="radio" name="gender" value="{{ g }}" {% if row and row['gender'] == g %}checked{% endif %}><span>{{ g }}</span></label>
+        {% endfor %}
+      </div>
+    </div>
+    <div>
+      <div class="label">Age range</div>
+      <div class="radio-list horizontal" style="margin-top:10px;">
+        {% for a in ['18-24','25-34','35-44','45-54','55+'] %}
+        <label class="option slim"><input type="radio" name="age_range" value="{{ a }}" {% if row and row['age_range'] == a %}checked{% endif %}><span>{{ a }}</span></label>
+        {% endfor %}
+      </div>
+    </div>
+    <button class="btn primary" type="submit">Continue</button>
+  </form>
+</section>
+{% endblock %}

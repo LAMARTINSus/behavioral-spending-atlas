@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card center">
+  <div class="spinner"></div>
+  <div class="eyebrow">Building your atlas</div>
+  <h2>Analyzing your patterns…</h2>
+  <p>We’re mapping your behavioral vector, identifying your strongest drivers, and preparing your spending profile.</p>
+</section>
+<script>
+  setTimeout(() => window.location = "{{ url_for('result_preview') }}", 1500);
+</script>
+{% endblock %}
