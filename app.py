@@ -172,130 +172,137 @@ def build_report(scores, answers):
     dims = top_dimensions(scores)
     primary = primary_archetype(scores)
     meta = ARCHETYPES[primary]
-    flags = contradictions(answers)
-    confidence = confidence_label(answers, flags)
 
-    top_codes = [d["code"] for d in dims[:3]]
-    top_labels = [LABELS[c].lower() for c in top_codes]
-    summary = f"Your answers point to a pattern centered on {top_labels[0]}, supported by {top_labels[1]} and {top_labels[2]}. This suggests you do not move through purchasing decisions randomly. You tend to follow a recognizable internal process."
-    reveal = meta["prompt"]
+    top_labels = [LABELS[d["code"]].lower() for d in dims[:3]]
 
-    intro = f"You are best described as a {primary.lower()}. {meta['prompt']}"
-    behavior = "Before spending, you tend to filter the decision through your strongest internal drivers rather than through pure spontaneity. The result is a repeatable style of deciding, hesitating, justifying, or acting."
-    driver = f"Your strongest pattern appears to be rooted in {', '.join(top_labels[:2])}. In practice, that means these forces are shaping how you compare, justify, delay, act, or upgrade."
-    hidden = "You likely recognize a moment where the decision is almost made, but one internal force keeps pulling for more certainty, better value, more emotional satisfaction, or more alignment."
-    external = "What you see around you, especially online, can matter more than it first appears. If social influence or FOMO scored high, outside exposure may be quietly shaping what feels necessary or desirable."
-    if primary == "Value Optimizer":
-        cost = "You may save money in the short term but quietly lose quality, durability, or upside when the lower-cost option feels safer than the better overall option."
-        adjustments = [
-            "Ask whether you are choosing what costs less or what delivers more.",
-            "After comparing 2–3 strong options, decide and move on.",
-            "Notice the moment you seek more certainty after already having enough information."
-        ]
-        closing = "You do not need more discipline. You need more trust in a decision once it already meets a strong standard."
-    elif primary == "Performance Seeker":
-        cost = "Your cost is usually not reckless spending. It is time, energy, and delay created by the search for the best possible option."
-        adjustments = [
-            "Set a clear standard before you compare.",
-            "When an option meets your standard, stop searching.",
-            "Differentiate the best option from the best practical option."
-        ]
-        closing = "You do not need endless comparison. You need confidence in your threshold."
-    elif primary == "Emotional Spender":
-        cost = "The hidden cost is inconsistency. A strong feeling can temporarily override your long-term priorities."
-        adjustments = [
-            "Delay non-essential purchases by one day.",
-            "Ask whether you would still want it tomorrow.",
-            "Separate emotional excitement from durable value."
-        ]
-        closing = "You do not need less emotion. You need better timing."
-    elif primary == "Identity Curator":
-        cost = "You may overpay for expression, symbolism, or perceived alignment when function alone would not justify the cost."
-        adjustments = [
-            "Ask whether you are buying use, image, or identity.",
-            "Separate what reflects you from what merely signals something.",
-            "Reserve identity spending for what truly matters."
-        ]
-        closing = "You do not need to express more. You need to choose what deserves expression."
-    elif primary == "Convenience Maximizer":
-        cost = "Convenience premiums can accumulate quietly, especially when spending becomes a way to reduce friction by default."
-        adjustments = [
-            "Ask whether the convenience is solving a real problem.",
-            "Notice patterns where effort feels intolerable.",
-            "Choose ease deliberately, not automatically."
-        ]
-        closing = "You do not need to remove all friction. Only the friction that truly costs you."
-    elif primary == "Over-Optimizer":
-        cost = "The hidden cost is decision fatigue and the quiet loss that comes from waiting too long to act."
-        adjustments = [
-            "Define what good enough means before you compare.",
-            "Set a time limit on medium-size decisions.",
-            "Treat repeated checking as a signal, not as proof you need more data."
-        ]
-        closing = "You do not need perfect decisions. You need timely ones."
-    elif primary == "Regret Avoider":
-        cost = "The search for certainty can slow strong decisions and increase tension even when your instincts are already sound."
-        adjustments = [
-            "Name the exact fear behind the hesitation.",
-            "Allow room for uncertainty in non-catastrophic decisions.",
-            "Replace extra checking with a simpler standard."
-        ]
-        closing = "You are not lacking information. You are protecting yourself from regret."
-    elif primary == "Socially Influenced Buyer":
-        cost = "You may adopt desires, purchases, or upgrades that were not originally yours simply because exposure changed your sense of what matters."
-        adjustments = [
-            "Ask whether you would still want it if you had not seen others with it.",
-            "Pause when interest rises immediately after exposure.",
-            "Protect your own priorities before you absorb someone else’s."
-        ]
-        closing = "You are not only deciding. You are also reacting."
-    elif primary == "Experience Chaser":
-        cost = "You may underweight long-term financial impact when the emotional or lifestyle value of an experience feels especially strong."
-        adjustments = [
-            "Decide in advance how much you want to reserve for experiences.",
-            "Ask what kind of experience is truly worth it to you.",
-            "Balance short-term richness with long-term freedom."
-        ]
-        closing = "You do not need less life. You need better balance."
-    elif primary == "FOMO-Driven Upgrader":
-        cost = "Comparison can quietly shift what feels necessary, creating spending that is reactive rather than rooted in your own priorities."
-        adjustments = [
-            "Ask whether this mattered before you saw someone else doing it.",
-            "Reduce exposure when comparison starts changing your priorities.",
-            "Distinguish inspiration from pressure."
-        ]
-        closing = "Comparison does not just affect your mood. It can reshape your spending."
-    else:
-        cost = "The cost of balance is that too many factors can matter at once, which can slow decisions or dilute conviction."
-        adjustments = [
-            "Pick the most important factor before comparing.",
-            "Use a different primary filter for different purchase types.",
-            "Simplify medium decisions so balance doesn’t turn into indecision."
-        ]
-        closing = "You do not need more balance. You need sharper prioritization."
+    page_1 = f"""
+You are not careless with decisions.
+
+You think more than most people realize.
+
+There is a pattern in how you approach choices. You don’t jump. You evaluate. You compare. You try to make sure that what you choose will hold up over time.
+
+At your best, this makes you someone who avoids mistakes others regret.
+
+But there is another side to this.
+
+There are moments where the decision is already clear… and yet something in you keeps going.
+
+Not because you are lost.
+
+But because you want to be sure.
+"""
+
+    page_2 = f"""
+Your decisions tend to be driven by {top_labels[0]}, reinforced by {top_labels[1]}.
+
+This means you are not reacting randomly to what is in front of you.
+
+You are filtering everything through an internal system:
+- Does this make sense?
+- Will this hold up?
+- Is this the right move long term?
+
+That internal system is strong.
+
+But it also means decisions can become heavier than they need to be.
+"""
+
+    page_3 = """
+There is a hidden cost to this pattern.
+
+Not in money.
+
+In energy.
+
+You can spend more time than necessary comparing, validating, and re-checking decisions that are already good enough.
+
+And over time, that creates something subtle:
+
+Decision fatigue.
+
+And sometimes… missed timing.
+"""
+
+    page_4 = """
+This pattern does not stay only in spending.
+
+It can show up in:
+- how long you take to make important life decisions
+- how often you revisit choices after they are already made
+- how much pressure you place on yourself to “get it right”
+
+In relationships, this can look like overthinking.
+In work, it can look like hesitation before acting.
+
+Not because you are unsure.
+
+But because you care about making the right move.
+"""
+
+    page_5 = """
+Your strengths are real:
+
+- You do not act blindly
+- You think before committing
+- You value clarity and structure
+- You avoid unnecessary mistakes
+
+When this is balanced, it becomes a powerful advantage.
+
+You make solid decisions.
+"""
+
+    page_6 = """
+What to watch:
+
+- Over-comparing beyond what is useful
+- Searching for certainty when enough information is already present
+- Delaying action in situations that require movement
+
+The risk is not making a bad decision.
+
+The risk is taking too long to make a good one.
+"""
+
+    page_7 = """
+As your life evolves, this pattern may shift.
+
+With more resources, you may start valuing time over optimization.
+
+With more pressure, you may feel the weight of decisions more strongly.
+
+The pattern does not disappear.
+
+It adapts.
+"""
+
+    page_8 = """
+What to do differently:
+
+- Define what “good enough” means before comparing options
+- Set time limits for decisions that do not require perfection
+- Recognize when continued analysis is no longer adding value
+
+Closing insight:
+
+You do not need perfect decisions.
+
+You need timely ones.
+"""
+
     return {
+        "page_1": page_1,
+        "page_2": page_2,
+        "page_3": page_3,
+        "page_4": page_4,
+        "page_5": page_5,
+        "page_6": page_6,
+        "page_7": page_7,
+        "page_8": page_8,
         "primary": primary,
-        "subtitle": meta["subtitle"],
-        "summary": summary,
-        "reveal": reveal,
-        "strengths": meta["strengths"],
-        "blind_spots": meta["blind_spots"],
-        "prompt": meta["prompt"],
-        "confidence": confidence,
-        "top_dims": dims[:4],
-        "all_dims": dims,
-        "intro": intro,
-        "behavior": behavior,
-        "driver": driver,
-        "hidden": hidden,
-        "external": external,
-        "cost": cost,
-        "adjustments": adjustments,
-        "closing": closing,
-        "flags": flags
+        "confidence": "High confidence"
     }
-
-@app.before_request
 def setup():
     init_db()
     if "session_id" not in session:
